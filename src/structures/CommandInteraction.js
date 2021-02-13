@@ -82,7 +82,7 @@ class CommandInteraction extends Interaction {
     const resolved = await apiMessage.resolveFiles();
 
     if (!this.syncHandle.reply(resolved)) {
-      const clientID = this.client.interactionClient.clientID || (await this.client.getApplication()).id;
+      const clientID = this.client.interactionClient.clientID || (await this.client.fetchApplication()).id;
       await this.client.api.webhooks(clientID, this.token).post({
         auth: false,
         data: resolved.data,

@@ -119,7 +119,7 @@ class InteractionClient extends BaseClient {
    * @returns {ApplicationCommand} The created command.
    */
   async createCommand(command, guildID) {
-    const clientID = this.client.interactionClient.clientID || (await this.client.getApplication()).id;
+    const clientID = this.client.interactionClient.clientID || (await this.client.fetchApplication()).id;
     let path = this.client.api.applications(clientID);
     if (guildID) {
       path = path.guilds(guildID);

@@ -44,7 +44,7 @@ class Interaction extends Base {
      * @type {?User}
      * @readonly
      */
-    this.user = this.client.users?.add(data.user, false) ?? null;
+    this.user = data.user ? (this.client.users?.add(data.user, false) ?? null) : null;
 
     /**
      * The guild this interaction was sent in, if any.
