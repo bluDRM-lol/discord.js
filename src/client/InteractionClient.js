@@ -130,6 +130,41 @@ class InteractionClient extends BaseClient {
     return new ApplicationCommand(this, c, guildID);
   }
 
+  /**
+   * Update a command.
+   * @param {Snowflake} commandID The command descriptor.
+   * @param {Object} command The command descriptor.
+   * @param {Snowflake} [guildID] Optional guild ID.
+   * @returns {ApplicationCommand} The updated command.
+   */
+  async updateCommand(commandID, command, guildID) {
+    const clientID = this.client.interactionClient.clientID || (await this.client.fetchApplication()).id;
+    let path = this.client.api.applications(clientID);
+    if (guildID) {
+      path = path.guilds(guildID);
+    }
+    const commandObject = transformCommand(command);
+    delete commandObject.name;
+    const c = await path.commands(commandID).patch({
+      data: commandObject,
+    });
+    return new ApplicationCommand(this, c, guildID);
+  }
+
+  /**
+   * Delete a command.
+   * @param {Snowflake} commandID The command descriptor.
+   * @param {Snowflake} [guildID] Optional guild ID.
+   */
+  async deleteCommand(commandID, guildID) {
+    const clientID = this.client.interactionClient.clientID || (await this.client.fetchApplication()).id;
+    let path = this.client.api.applications(clientID);
+    if (guildID) {
+      path = path.guilds(guildID);
+    }
+    await path.commands(commandID).delete();
+  }
+
   handle(data) {
     switch (data.type) {
       case InteractionType.PING:

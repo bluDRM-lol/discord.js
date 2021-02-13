@@ -1388,6 +1388,24 @@ class Guild extends Base {
   }
 
   /**
+   * Update a command. See {@link InteractionClient}.
+   * @param {Snowflake} commandID The command ID.
+   * @param {Object} command The command description.
+   * @returns {ApplicationCommand} The updated command.
+   */
+  updateCommand(commandID, command) {
+    return this.client.interactionClient.updateCommand(commandID, command, this.id);
+  }
+
+  /**
+   * Deletes a command. See {@link InteractionClient}.
+   * @param {Snowflake} commandID The command ID.
+   */
+  deleteCommand(commandID) {
+    return this.client.interactionClient.deleteCommand(commandID, this.id);
+  }
+
+  /**
    * Leaves the guild.
    * @returns {Promise<Guild>}
    * @example
